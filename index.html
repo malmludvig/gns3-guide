@@ -1,0 +1,411 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GNS3 Interaktiv Guide</title>
+  <meta name="description" content="En interaktiv guide till GNS3 – bygg, starta och felsök virtuella nätverk direkt i webbläsaren.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="#top" class="brand" aria-label="Till toppen">
+      <svg viewBox="0 0 32 32" width="28" height="28" aria-hidden="true">
+        <circle cx="16" cy="6" r="4"/><circle cx="6" cy="24" r="4"/><circle cx="26" cy="24" r="4"/>
+        <path d="M16 10 L6 20 M16 10 L26 20 M10 24 H22"/>
+      </svg>
+      <span>GNS3<em>guiden</em></span>
+    </a>
+    <nav class="main-nav" id="mainNav" aria-label="Huvudmeny">
+      <a href="#oversikt">Översikt</a>
+      <a href="#arkitektur">Arkitektur</a>
+      <a href="#arbetsflode">Arbetsflöde</a>
+      <a href="#labb">Labb</a>
+      <a href="#terminal">Terminal</a>
+      <a href="#jamforelse">Jämförelse</a>
+      <a href="#kom-igang">Kom igång</a>
+      <a href="#quiz">Quiz</a>
+    </nav>
+    <div class="header-actions">
+      <button class="icon-btn" id="themeToggle" type="button" aria-label="Byt tema">◐</button>
+      <button class="icon-btn menu-btn" id="menuToggle" type="button" aria-label="Öppna meny" aria-expanded="false">☰</button>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container hero-grid">
+      <div>
+        <p class="eyebrow">Graphical Network Simulator-3</p>
+        <h1>Bygg riktiga nätverk – <span class="accent">utan riktig hårdvara</span></h1>
+        <p class="lead">GNS3 är ett gratis verktyg med öppen källkod som låter dig designa, köra och felsöka nätverk med äkta routrar, switchar och servrar – virtuellt, på din egen dator. Här lär du dig hur det fungerar genom att testa själv.</p>
+        <div class="hero-cta">
+          <a class="btn primary" href="#labb">Prova labbet</a>
+          <a class="btn ghost" href="#oversikt">Vad är GNS3?</a>
+        </div>
+        <ul class="hero-facts">
+          <li><strong>Gratis</strong><span>Öppen källkod (GPL)</span></li>
+          <li><strong>2008</strong><span>Första versionen</span></li>
+          <li><strong>Multivendor</strong><span>Cisco, Juniper, Linux m.fl.</span></li>
+        </ul>
+      </div>
+      <div class="hero-visual" aria-hidden="true">
+        <svg viewBox="0 0 420 320" class="hero-svg">
+          <defs>
+            <pattern id="heroGrid" width="20" height="20" patternUnits="userSpaceOnUse">
+              <path d="M20 0 H0 V20" fill="none" class="grid-line"/>
+            </pattern>
+          </defs>
+          <rect width="420" height="320" rx="16" fill="url(#heroGrid)" class="hero-bg"/>
+          <path id="hp1" d="M70 250 L150 170 L270 90 L350 170 L350 250" class="hero-link"/>
+          <path d="M150 170 L270 250 M270 90 L270 250" class="hero-link"/>
+          <circle r="6" class="hero-packet a"><animateMotion dur="4s" repeatCount="indefinite"><mpath href="#hp1"/></animateMotion></circle>
+          <circle r="6" class="hero-packet b"><animateMotion dur="4s" begin="2s" repeatCount="indefinite" keyPoints="1;0" keyTimes="0;1" calcMode="linear"><mpath href="#hp1"/></animateMotion></circle>
+          <g class="hn pc" transform="translate(70 250)"><rect x="-20" y="-16" width="40" height="28" rx="4"/><text y="34">PC1</text></g>
+          <g class="hn switch" transform="translate(150 170)"><rect x="-24" y="-15" width="48" height="30" rx="6"/><text y="34">SW1</text></g>
+          <g class="hn router" transform="translate(270 90)"><circle r="22"/><text y="40">R1</text></g>
+          <g class="hn router" transform="translate(350 170)"><circle r="22"/><text y="40">R2</text></g>
+          <g class="hn switch" transform="translate(270 250)"><rect x="-24" y="-15" width="48" height="30" rx="6"/><text y="34">SW2</text></g>
+          <g class="hn pc" transform="translate(350 250)"><rect x="-20" y="-16" width="40" height="28" rx="4"/><text y="34">PC2</text></g>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- ÖVERSIKT -->
+  <section id="oversikt" class="section">
+    <div class="container">
+      <p class="eyebrow">Översikt</p>
+      <h2>Vad är GNS3?</h2>
+      <p class="section-lead">GNS3 är en <strong>nätverksemulator</strong>. Det betyder att den kör samma operativsystem som riktig nätverksutrustning – till exempel Cisco IOS – inuti virtuella maskiner. Du får alltså exakt samma kommandon, beteenden och buggar som på en fysisk router.</p>
+
+      <div class="card-grid">
+        <article class="card"><div class="card-icon">⚙️</div><h3>Riktiga operativsystem</h3><p>Kör äkta images av Cisco IOS, Juniper vMX, Arista vEOS, MikroTik, pfSense, Linux och Windows.</p></article>
+        <article class="card"><div class="card-icon">🧩</div><h3>Dra och släpp</h3><p>Bygg topologier grafiskt: dra in enheter, koppla kablar och starta allt med ett klick.</p></article>
+        <article class="card"><div class="card-icon">🦈</div><h3>Wireshark inbyggt</h3><p>Högerklicka på en länk och fånga trafiken live – perfekt för att förstå protokoll på djupet.</p></article>
+        <article class="card"><div class="card-icon">🌍</div><h3>Koppla till verkligheten</h3><p>Med Cloud- och NAT-noder kan labbet nå internet eller ditt fysiska nätverk.</p></article>
+        <article class="card"><div class="card-icon">💸</div><h3>Gratis och öppet</h3><p>Ingen licenskostnad för själva verktyget. Källkoden finns på GitHub och communityn är stor.</p></article>
+        <article class="card"><div class="card-icon">🎓</div><h3>Certifieringar</h3><p>Populärt för att plugga CCNA, CCNP och CCIE, men också för att testa ändringar innan produktion.</p></article>
+      </div>
+
+      <div class="compare-toggle">
+        <div class="segmented" role="tablist" aria-label="Emulering eller simulering">
+          <button role="tab" aria-selected="true" data-mode="emu">Emulering (GNS3)</button>
+          <button role="tab" aria-selected="false" data-mode="sim">Simulering (t.ex. Packet Tracer)</button>
+        </div>
+        <div class="toggle-body" id="emuSimBody"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ARKITEKTUR -->
+  <section id="arkitektur" class="section alt">
+    <div class="container">
+      <p class="eyebrow">Arkitektur</p>
+      <h2>Hur hänger delarna ihop?</h2>
+      <p class="section-lead">GNS3 består av ett grafiskt gränssnitt och en server som gör det tunga jobbet. Servern startar i sin tur olika emulatorer beroende på vilken enhet du lägger till. <strong>Klicka på en komponent</strong> för att läsa mer.</p>
+
+      <div class="arch-layout">
+        <div class="arch-diagram">
+          <div class="arch-row">
+            <span class="arch-label">Klient</span>
+            <button class="arch-node" data-arch="gui">GNS3 GUI</button>
+            <button class="arch-node" data-arch="web">Web-UI</button>
+          </div>
+          <div class="arch-arrow"><span>REST API + WebSocket · port 3080</span></div>
+          <div class="arch-row">
+            <span class="arch-label">Server</span>
+            <button class="arch-node" data-arch="local">Lokal server</button>
+            <button class="arch-node featured" data-arch="vm">GNS3 VM</button>
+            <button class="arch-node" data-arch="remote">Fjärrserver</button>
+          </div>
+          <div class="arch-arrow"><span>startar och styr</span></div>
+          <div class="arch-row wrap">
+            <span class="arch-label">Emulatorer</span>
+            <button class="arch-node small" data-arch="dynamips">Dynamips</button>
+            <button class="arch-node small" data-arch="qemu">QEMU / KVM</button>
+            <button class="arch-node small" data-arch="iou">IOU / IOL</button>
+            <button class="arch-node small" data-arch="vpcs">VPCS</button>
+            <button class="arch-node small" data-arch="docker">Docker</button>
+            <button class="arch-node small" data-arch="virt">VirtualBox / VMware</button>
+          </div>
+        </div>
+        <aside class="arch-detail" id="archDetail" aria-live="polite"></aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- ARBETSFLÖDE -->
+  <section id="arbetsflode" class="section">
+    <div class="container">
+      <p class="eyebrow">Arbetsflöde</p>
+      <h2>Ett typiskt labb – steg för steg</h2>
+      <p class="section-lead">Så här ser arbetet ut när du bygger ett labb i GNS3. Bläddra mellan stegen.</p>
+      <div class="stepper">
+        <ol class="step-dots" id="stepDots"></ol>
+        <div class="step-card" id="stepCard" aria-live="polite"></div>
+        <div class="step-nav">
+          <button class="btn ghost" id="stepPrev" type="button">← Föregående</button>
+          <button class="btn primary" id="stepNext" type="button">Nästa →</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LABB -->
+  <section id="labb" class="section alt">
+    <div class="container">
+      <p class="eyebrow">Interaktivt labb</p>
+      <h2>Testa själv: en mini-GNS3</h2>
+      <p class="section-lead">Ett förenklat arbetsområde som fungerar som GNS3. Lägg till enheter, dra kablar, starta noderna och skicka ping. Klicka på en kabel för att starta en Wireshark-fångst.</p>
+
+      <div class="lab">
+        <div class="lab-main">
+          <div class="toolbar" role="toolbar" aria-label="Labbverktyg">
+            <div class="tool-group">
+              <button class="tool" data-add="router" type="button" title="Lägg till router"><span class="dot router"></span>Router</button>
+              <button class="tool" data-add="switch" type="button" title="Lägg till switch"><span class="dot switch"></span>Switch</button>
+              <button class="tool" data-add="pc" type="button" title="Lägg till PC"><span class="dot pc"></span>PC</button>
+            </div>
+            <div class="tool-group">
+              <button class="tool mode active" data-mode="move" type="button">✋ Flytta/välj</button>
+              <button class="tool mode" data-mode="link" type="button">🔌 Dra kabel</button>
+            </div>
+            <div class="tool-group">
+              <button class="tool start" id="startAll" type="button">▶ Starta alla</button>
+              <button class="tool stop" id="stopAll" type="button">■ Stoppa alla</button>
+              <button class="tool" id="resetLab" type="button">↺ Återställ</button>
+            </div>
+          </div>
+          <div class="canvas-wrap">
+            <svg id="topo" class="topo" viewBox="0 0 900 460" role="img" aria-label="Nätverkstopologi">
+              <defs>
+                <pattern id="topoGrid" width="30" height="30" patternUnits="userSpaceOnUse">
+                  <path d="M30 0 H0 V30" fill="none" class="grid-line"/>
+                </pattern>
+              </defs>
+              <rect class="topo-bg" width="900" height="460" fill="url(#topoGrid)"/>
+              <line id="rubber" class="rubber" x1="0" y1="0" x2="0" y2="0" visibility="hidden"/>
+              <g id="topoLinks"></g>
+              <g id="topoNodes"></g>
+              <g id="topoPackets"></g>
+            </svg>
+            <p class="canvas-hint" id="canvasHint">Klicka på en enhet för att välja den. Dra för att flytta.</p>
+          </div>
+
+          <div class="ping-bar">
+            <label>Från <select id="pingSrc"></select></label>
+            <label>Till <select id="pingDst"></select></label>
+            <button class="btn primary" id="pingBtn" type="button">Skicka ping</button>
+          </div>
+
+          <div class="capture-panel" id="capturePanel" hidden>
+            <div class="capture-head">
+              <strong>🦈 Wireshark – fångade paket</strong>
+              <button class="link-btn" id="clearCapture" type="button">Rensa</button>
+            </div>
+            <div class="table-scroll">
+              <table class="capture-table">
+                <thead><tr><th>Nr</th><th>Tid</th><th>Länk</th><th>Källa</th><th>Destination</th><th>Protokoll</th><th>Info</th></tr></thead>
+                <tbody id="captureBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <aside class="lab-side">
+          <div class="panel" id="nodePanel">
+            <h3>Vald enhet</h3>
+            <p class="muted">Ingen enhet vald. Klicka på en router, switch eller PC.</p>
+          </div>
+          <div class="panel">
+            <h3>Utmaningar</h3>
+            <ul class="checklist" id="labChallenges">
+              <li data-key="ping">Starta alla noder och pinga från PC1 till PC3 (genom båda routrarna).</li>
+              <li data-key="capture">Klicka på kabeln mellan R1 och R2 och pinga igen – se paketen i Wireshark.</li>
+              <li data-key="fail">Stoppa R2 och försök pinga PC3. Vad händer?</li>
+              <li data-key="build">Lägg till en ny PC, koppla in den och pinga den.</li>
+            </ul>
+          </div>
+          <div class="panel log-panel">
+            <h3>Konsollogg</h3>
+            <div class="log" id="labLog" aria-live="polite"></div>
+          </div>
+        </aside>
+      </div>
+      <p class="footnote">Förenkling: i riktiga GNS3 måste routrarna konfigureras med IP-adresser och routing innan trafik kan passera. Det övar du på i terminalen nedan.</p>
+    </div>
+  </section>
+
+  <!-- TERMINAL -->
+  <section id="terminal" class="section">
+    <div class="container">
+      <p class="eyebrow">Konsol</p>
+      <h2>Konfigurera en router via konsolen</h2>
+      <p class="section-lead">I GNS3 dubbelklickar du på en router för att öppna dess konsol (via telnet). Här är en simulerad Cisco IOS-konsol. Följ uppdragen – de bockas av automatiskt.</p>
+
+      <div class="term-layout">
+        <div class="terminal" id="termBox">
+          <div class="term-bar">
+            <span class="tdot r"></span><span class="tdot y"></span><span class="tdot g"></span>
+            <span class="term-title">R1 — telnet localhost 5000</span>
+          </div>
+          <div class="term-out" id="termOut" aria-live="polite"></div>
+          <form class="term-input" id="termForm" autocomplete="off">
+            <label for="termIn" id="termPrompt">R1&gt;</label>
+            <input id="termIn" type="text" spellcheck="false" autocapitalize="off" aria-label="Kommando">
+          </form>
+        </div>
+        <aside class="panel">
+          <h3>Uppdrag</h3>
+          <ol class="checklist numbered" id="termMissions">
+            <li data-key="enable">Gå till privilegierat läge</li>
+            <li data-key="conf">Gå till konfigurationsläge</li>
+            <li data-key="int">Välj interfacet GigabitEthernet0/0</li>
+            <li data-key="ip">Sätt IP-adressen 10.0.0.1 /24</li>
+            <li data-key="noshut">Aktivera interfacet</li>
+            <li data-key="brief">Verifiera med en show-kommando</li>
+            <li data-key="ping">Pinga grannen 10.0.0.2</li>
+          </ol>
+          <details class="solution">
+            <summary>Visa lösning</summary>
+            <pre>enable
+configure terminal
+interface g0/0
+ip address 10.0.0.1 255.255.255.0
+no shutdown
+end
+show ip interface brief
+ping 10.0.0.2</pre>
+          </details>
+          <p class="muted small">Tips: skriv <code>?</code> för hjälp. Förkortningar som <code>en</code>, <code>conf t</code> och <code>sh ip int br</code> fungerar. Piltangenterna bläddrar i historiken.</p>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- JÄMFÖRELSE -->
+  <section id="jamforelse" class="section alt">
+    <div class="container">
+      <p class="eyebrow">Jämförelse</p>
+      <h2>GNS3 jämfört med alternativen</h2>
+      <p class="section-lead">Vilket verktyg passar dig? Klicka på ett behov för att markera det bästa valet.</p>
+      <div class="chips" id="needChips">
+        <button class="chip" data-need="beginner" type="button">Jag är nybörjare</button>
+        <button class="chip" data-need="real" type="button">Jag vill köra riktiga images</button>
+        <button class="chip" data-need="multi" type="button">Flera tillverkare</button>
+        <button class="chip" data-need="team" type="button">Delat labb i webbläsaren</button>
+        <button class="chip" data-need="free" type="button">Helt gratis</button>
+      </div>
+      <div class="table-scroll">
+        <table class="compare-table" id="compareTable">
+          <thead>
+            <tr><th></th><th data-col="gns3">GNS3</th><th data-col="pt">Packet Tracer</th><th data-col="eve">EVE-NG</th></tr>
+          </thead>
+          <tbody>
+            <tr><th>Typ</th><td>Emulator</td><td>Simulator</td><td>Emulator</td></tr>
+            <tr><th>Pris</th><td>Gratis, öppen källkod</td><td>Gratis (kräver Cisco NetAcad-konto)</td><td>Community gratis, Pro betald</td></tr>
+            <tr><th>Gränssnitt</th><td>Skrivbordsapp (+ Web-UI)</td><td>Skrivbordsapp</td><td>Webbläsare</td></tr>
+            <tr><th>Riktiga OS-images</th><td>Ja</td><td>Nej</td><td>Ja</td></tr>
+            <tr><th>Tillverkare</th><td>Många</td><td>Endast Cisco</td><td>Många</td></tr>
+            <tr><th>Resurskrav</th><td>Medel–högt</td><td>Lågt</td><td>Högt</td></tr>
+            <tr><th>Bäst för</th><td>CCNP/CCIE, multivendor, avancerade labb</td><td>Nybörjare, CCNA-grunder</td><td>Team, stora labb på server</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="muted" id="needResult"></p>
+    </div>
+  </section>
+
+  <!-- KOM IGÅNG -->
+  <section id="kom-igang" class="section">
+    <div class="container">
+      <p class="eyebrow">Kom igång</p>
+      <h2>Installera GNS3</h2>
+      <p class="section-lead">Välj ditt operativsystem.</p>
+      <div class="tabs">
+        <div class="segmented" role="tablist" aria-label="Operativsystem">
+          <button role="tab" aria-selected="true" data-os="win">Windows</button>
+          <button role="tab" aria-selected="false" data-os="mac">macOS</button>
+          <button role="tab" aria-selected="false" data-os="linux">Linux</button>
+        </div>
+        <div class="os-panel" data-os-panel="win">
+          <ol class="install-steps">
+            <li><strong>Ladda ner</strong> installationsprogrammet från <code>gns3.com</code> (gratis konto krävs) eller GitHub.</li>
+            <li><strong>Kör installationen</strong> och behåll standardkomponenterna: Wireshark, Npcap, VPCS, Dynamips och QEMU.</li>
+            <li><strong>Installera en hypervisor</strong> – VMware Workstation rekommenderas, VirtualBox fungerar också.</li>
+            <li><strong>Ladda ner GNS3 VM</strong> i <em>samma version</em> som GNS3 och importera den.</li>
+            <li><strong>Kör Setup Wizard</strong> vid första start och välj “Run appliances in a virtual machine”.</li>
+            <li><strong>Lägg till images</strong> via <code>File → New template</code> eller importera en färdig appliance (.gns3a).</li>
+          </ol>
+        </div>
+        <div class="os-panel" data-os-panel="mac" hidden>
+          <ol class="install-steps">
+            <li><strong>Ladda ner</strong> <code>.dmg</code>-filen från <code>gns3.com</code> och dra GNS3 till Program.</li>
+            <li><strong>Installera en hypervisor</strong> – VMware Fusion eller VirtualBox (Intel). På Apple Silicon är stödet för x86-images begränsat; en fjärrserver är ofta smidigast.</li>
+            <li><strong>Importera GNS3 VM</strong> i samma version som klienten.</li>
+            <li><strong>Kör Setup Wizard</strong> och koppla GUI:t till VM:en.</li>
+            <li><strong>Installera Wireshark</strong> separat för paketfångst.</li>
+          </ol>
+        </div>
+        <div class="os-panel" data-os-panel="linux" hidden>
+          <ol class="install-steps">
+            <li><strong>Ubuntu/Debian:</strong> lägg till GNS3:s PPA och installera paketen.</li>
+          </ol>
+          <pre class="code">sudo add-apt-repository ppa:gns3/ppa
+sudo apt update
+sudo apt install gns3-gui gns3-server</pre>
+          <ol class="install-steps" start="2">
+            <li><strong>Ingen VM behövs</strong> – på Linux kan servern köra QEMU/KVM direkt på värddatorn.</li>
+            <li><strong>Lägg din användare i grupperna</strong> <code>ubridge</code>, <code>libvirt</code>, <code>kvm</code> och <code>wireshark</code>, logga sedan ut och in.</li>
+            <li><strong>Alternativ:</strong> installera via <code>pip install gns3-server gns3-gui</code>.</li>
+          </ol>
+        </div>
+      </div>
+      <div class="callout">
+        <strong>⚠️ Viktigt om images:</strong> GNS3 levereras inte med Cisco IOS eller andra kommersiella images. Du måste själv ha licens för dem (t.ex. via Cisco Modeling Labs). Gratisalternativ finns: VPCS, Alpine Linux, VyOS, FRRouting, Open vSwitch m.fl.
+      </div>
+    </div>
+  </section>
+
+  <!-- QUIZ -->
+  <section id="quiz" class="section alt">
+    <div class="container narrow">
+      <p class="eyebrow">Quiz</p>
+      <h2>Testa dina kunskaper</h2>
+      <div id="quizBox" class="quiz"></div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" class="section">
+    <div class="container narrow">
+      <p class="eyebrow">FAQ</p>
+      <h2>Vanliga frågor</h2>
+      <details class="faq"><summary>Hur mycket RAM behöver jag?</summary><p>Minst 8 GB för små labb, men 16–32 GB rekommenderas. En Cisco IOSv-router drar ca 512 MB, medan t.ex. Cisco CSR1000v eller Juniper vMX kan kräva flera GB per nod.</p></details>
+      <details class="faq"><summary>Varför behövs GNS3 VM?</summary><p>Många images (IOU, KVM-accelererade QEMU-maskiner) kräver Linux. GNS3 VM är en färdig Linux-maskin som kör servern med hårdvaruacceleration, vilket ger mycket bättre prestanda på Windows och macOS.</p></details>
+      <details class="faq"><summary>Måste GUI och VM ha samma version?</summary><p>Ja. Klienten och servern måste ha exakt samma versionsnummer, annars vägrar de att ansluta till varandra.</p></details>
+      <details class="faq"><summary>Kan jag dela projekt med andra?</summary><p>Ja. Exportera projektet som en portabel <code>.gns3project</code>-fil, eller låt flera personer ansluta till samma fjärrserver.</p></details>
+      <details class="faq"><summary>Vad är en appliance?</summary><p>En <code>.gns3a</code>-fil är en mall som beskriver hur en viss enhet ska köras (RAM, nätverkskort, disk). GNS3 Marketplace har hundratals färdiga appliances.</p></details>
+      <details class="faq"><summary>Fungerar GNS3 på Apple Silicon (M1/M2/M3)?</summary><p>Klienten fungerar, men de flesta nätverksimages är byggda för x86. Det vanligaste upplägget är att köra GNS3-servern på en x86-maskin eller i molnet och ansluta från Macen.</p></details>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>En fristående, interaktiv guide om GNS3. Labbet och terminalen är förenklade simuleringar för inlärning. Läs mer i den officiella dokumentationen på <code>docs.gns3.com</code>.</p>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
